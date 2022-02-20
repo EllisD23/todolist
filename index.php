@@ -1,13 +1,16 @@
 <?php 
 require('database.php');
 
+//Get Items
+//if (!isset())
 //Get todo items
-$queryAllItems = 'SELECT * FROM todoitems';
+$query = 'SELECT itemNum, title, description FROM todoitems 
+          ORDER BY itemNum';
 
-$statement = $db->prepare($queryAllItems);
+$statement = $db->prepare($query);
 $statement->execute();
 $customers = $statement->fetchAll();
-$statement->closeCursor(); 
+$statement->closeCursor();
 ?>
 
 <!DOCTYPE html>
@@ -25,10 +28,10 @@ $statement->closeCursor();
             <div>
                 <h2>ToDo List</h2>
                 <table>
-                    <?php foreach ($items as $item ) :?>
+                    <?php foreach ($todoitems as $todoitem ) :?>
                     <tr>
-                        <td><?php echo $item ['itemTitle']; ?></td>
-                        <td><?php echo $item ['itemDescription']; ?></td>
+                        <td><?php echo $todoitem ['Title']; ?></td>
+                        <td><?php echo $todoitem ['Description']; ?></td>
                         <td><form action="delete_item.php" method="POST">
                             <input type="hidden" name="itemNum" value="<?php echo $item ['itemNum']; ?>">
                             <input type="submit" value="Delete">
@@ -39,15 +42,14 @@ $statement->closeCursor();
             </div>
             <div>
                 <h2>Add Item</h2>
-                <form action="add_item.php" method="POST" id="addItem">
-                    <label for="Tiile"></label>
-                    <input type="text" name="title" placeholder="Title"><br>
+                <form action= "<?php echo $_SERVER["PHP_SELF"]?>">
+                        <label for="title" class="form-lable">First Name</label>
+                        <input type="text" class="form-control" name="title" autocomplete="off"><br>
 
-                    <label for="Description"></label>
-                    <input type="text" name="Description" placeholder="Description"><br>
+                        <label for="description" class="form-lable">First Name</label>
+                        <input type="text" class="form-control" name="description" autocomplete="off"><br>
 
-                    <label for="submit">&nbsp;</label>
-                    <input type="submit" value="Add Item">
+                    <button type="submit">Add Item</button>
                 </form>
             </div>
         </div>

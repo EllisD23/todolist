@@ -1,17 +1,18 @@
 <?php
 // get the item 
-$title = filter_input(INPUT_POST, 'title');
-$description = filter_input(INPUT_POST, 'description');
+$title = filter_input(INPUT_GET, 'title', FILTER_SANITIZE_STRING);
+$description = filter_input(INPUT_GET, 'decription', FILTER_SANITIZE_STRING);
 
 //check input
-/*if ($title == null || $title == false || $description == null || $description == false ){
+if ($title == null || $title == false || $description == null || $description == false ){
     $error = "Check all fields and try again.";
-    include('database_error.php');
-} else*/// {
+    echo $error;
+    include('index.php');
+} else {
     require_once('database.php');
 
     //add item
-    $query = 'INSERT INTO todoitems (Title, Description)
+    $query = 'INSERT INTO todoitems (title, description)
               VALUES (:title, :description)';
     $statement = $db->prepare($query);
     $statement->bindValue(':title', $title);
@@ -21,5 +22,5 @@ $description = filter_input(INPUT_POST, 'description');
 
     //display Todolist
     include('index.php');
-//}
+}
 ?>
